@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-
+#include <string>
 
 
 
@@ -21,10 +21,8 @@ enum class WindowOption {
 int main(void)
 {
 
-
 	// GLFW init
 	glfwInit();
-
 
 	// Config
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -52,6 +50,39 @@ int main(void)
 	
 	// Resize render view relative to window
 	glfwSetFramebufferSizeCallback(window, resizeRenderView);
+
+
+
+	// x,y coordinate discard z axis
+	float vertexPos[]{
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+	};
+
+	// Allocate memory for Vertex Buffer id
+	unsigned int vertexBufferID;
+
+	// Create A buffer
+	glGenBuffers(1, &vertexBufferID);
+
+	// Select buffer
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+
+	// Input data
+	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertexPos, GL_STATIC_DRAW);
+
+
+	const char* vertexShader{
+		"#version 330 core\n"
+		"layout(location = 0) in vec3 position;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_Position = vec4(position.x, position.y, position.z, 1.0)\n"
+		"}\n"
+	};
+
 
 
 	while (!glfwWindowShouldClose(window)) {	
