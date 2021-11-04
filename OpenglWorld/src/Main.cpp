@@ -60,33 +60,43 @@ int main(void)
 
 	// x,y coordinate discard z axis
 	float vertexPos[]{
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
 		0.5f, 0.5f, 0.0f,
 	};
 
-	// Allocate memory for Vertex Buffer id
-	unsigned int vertexBufferID;
+	// Allocate memory for Vertex Buffer Object
+	unsigned int vertexBufferObject;
 
 	// Create A buffer
-	glGenBuffers(1, &vertexBufferID);
+	glGenBuffers(1, &vertexBufferObject);
+
+	// Allocate memory for Vertex Array object
+	unsigned int vertexArrayObject;
+
+	// Select vao
+	glGenVertexArrays(1, &vertexArrayObject);
+	glBindVertexArray(vertexArrayObject);
 
 	// Select buffer
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 
 	// Input data
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertexPos, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
 
+	// Specify layout for opengl
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
+	glEnableVertexAttribArray(0);
 
 	// Vertex Shader 
 	const char* vertexShaderSource{
 		"#version 330 core\n"
 		"\n"
-		"layout(location = 0) in vec3 position;\n"
+		"layout (location = 0) in vec3 position;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"  gl_Position = vec4(position.x, position.y, position.z, 1.0f);\n"
+		"  gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
 		"}\n"
 	};
 
@@ -101,9 +111,8 @@ int main(void)
 		"}\n"
 	};
 
-
 	glUseProgram(CreateShader(vertexShaderSource, fragmentShaderSource));
-
+	//glBindVertexArray(vertexArrayObject);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -113,6 +122,9 @@ int main(void)
 		// Clear Screen
 		glClearColor(0.1f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		
+		// Primitives to draw
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// Use color value for GLFW window
 		glfwSwapBuffers(window);
@@ -151,7 +163,7 @@ namespace {
 
 		// Error Check
 		int result;
-
+	
 		glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &result);
 		if (result == GL_FALSE) {
 			int length;
@@ -159,7 +171,6 @@ namespace {
 
 			char* message{ static_cast<char*>(_malloca(length * sizeof(float))) };
 			glGetShaderInfoLog(shaderObject, length, &length, message);
-
 			std::cout << "Shader Compile: Error "
 				<< (shaderType == GL_VERTEX_SHADER) ? "vertex" : "fragment\n";
 			std::cout << message << '\n';
@@ -173,6 +184,9 @@ namespace {
 
 		unsigned int shaderProgramObject{ glCreateProgram() };
 
+		std::cout << vertexShaderSource << '\n';
+		std::cout << fragmentShaderSource << '\n';
+
 		// Use Compiled shader
 		unsigned int vertexShader{ CompileShader(GL_VERTEX_SHADER, vertexShaderSource) };
 		unsigned int fragmentShader{ CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource) };
@@ -181,9 +195,6 @@ namespace {
 		glAttachShader(shaderProgramObject, vertexShader);
 		glAttachShader(shaderProgramObject, fragmentShader);
 		glLinkProgram(shaderProgramObject);
-		
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
 
 		// Error check
 		// Experimenting error Check
@@ -197,6 +208,10 @@ namespace {
 			glfwTerminate();
 			return -1;
 		}
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
 		return shaderProgramObject;
 	}
 }
