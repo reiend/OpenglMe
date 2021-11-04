@@ -14,6 +14,7 @@ void closeWindowEvent(GLFWwindow* window);
 
 namespace {
 	unsigned int CompileShader(unsigned int shaderType, const char* shaderSource);
+	unsigned int CreateShader(const char* vertexShaderSource, const char* fragmentShaderSource);
 }
 
 constexpr int WIDTH{ 1000 };
@@ -100,9 +101,8 @@ int main(void)
 		"}\n"
 	};
 
-	
-	unsigned int vs{ CompileShader(GL_VERTEX_SHADER, vertexShaderSource) };
-	unsigned int fs{ CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource) };
+
+	glUseProgram(CreateShader(vertexShaderSource, fragmentShaderSource));
 
 
 	while (!glfwWindowShouldClose(window)) {
@@ -139,6 +139,7 @@ void closeWindowEvent(GLFWwindow* window) {
 	}
 }
 
+//Todo's refactor this
 namespace {
 	unsigned int CompileShader(unsigned int shaderType, const char* shaderSource) {
 
@@ -158,7 +159,44 @@ namespace {
 
 			char* message{ static_cast<char*>(_malloca(length * sizeof(float))) };
 			glGetShaderInfoLog(shaderObject, length, &length, message);
+
+			std::cout << "Shader Compile: Error "
+				<< (shaderType == GL_VERTEX_SHADER) ? "vertex" : "fragment\n";
+			std::cout << message << '\n';
+			glfwTerminate();
+			return -1;
 		}
 		return shaderObject;
+	}
+
+	unsigned int CreateShader(const char* vertexShaderSource, const char* fragmentShaderSource) {
+
+		unsigned int shaderProgramObject{ glCreateProgram() };
+
+		// Use Compiled shader
+		unsigned int vertexShader{ CompileShader(GL_VERTEX_SHADER, vertexShaderSource) };
+		unsigned int fragmentShader{ CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource) };
+
+		// Attach and link shader
+		glAttachShader(shaderProgramObject, vertexShader);
+		glAttachShader(shaderProgramObject, fragmentShader);
+		glLinkProgram(shaderProgramObject);
+		
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
+		// Error check
+		// Experimenting error Check
+		int result;
+		char infoLog[512];
+		glGetProgramiv(shaderProgramObject, GL_LINK_STATUS, &result);
+
+		if (result == GL_FALSE) {
+			glGetProgramInfoLog(shaderProgramObject, 512, NULL, infoLog);
+			std::cout << "Shader Linking: Error " << infoLog << '\n';
+			glfwTerminate();
+			return -1;
+		}
+		return shaderProgramObject;
 	}
 }
