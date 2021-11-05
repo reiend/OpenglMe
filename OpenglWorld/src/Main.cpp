@@ -5,9 +5,6 @@
 #include <iostream>
 #include <string>
 
-
-
-
 void resizeRenderView(GLFWwindow* window, int width, int height);
 void closeWindowEvent(GLFWwindow* window);
 
@@ -60,29 +57,40 @@ int main(void)
 
 	// x,y coordinate discard z axis
 	float vertexPos[]{
-		-0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
+		// First triangle
+		-0.5f, -0.5f, 0.0f,        
+		-0.5f,  0.5f, 0.0f,
+		 0.5f,  0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
 	};
 
-	// Allocate memory for Vertex Buffer Object
+	unsigned int indeces[]{
+		0, 1, 2,	// First triangle 
+		0, 3, 2,	// second triangle
+	};
+
+	// Vertex Buffer Object
 	unsigned int vertexBufferObject;
+
+	// Vertex Array object
+	unsigned int vertexArrayObject;
+
+	// Element Buffer Object
+	unsigned int elementBufferObject;
 
 	// Create A buffer
 	glGenBuffers(1, &vertexBufferObject);
-
-	// Allocate memory for Vertex Array object
-	unsigned int vertexArrayObject;
-
-	// Select vao
 	glGenVertexArrays(1, &vertexArrayObject);
+	glGenBuffers(1, &elementBufferObject);
+
+	// Select buffer and inputs
 	glBindVertexArray(vertexArrayObject);
 
-	// Select buffer
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertexPos, GL_STATIC_DRAW);
 
-	// Input data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(float), indeces, GL_STATIC_DRAW);
 
 	// Specify layout for opengl
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
@@ -124,7 +132,10 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		// Primitives to draw
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, 3); // draw from vertex buffer
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	
 
 		// Use color value for GLFW window
 		glfwSwapBuffers(window);
@@ -150,6 +161,8 @@ void closeWindowEvent(GLFWwindow* window) {
 		glfwSetWindowShouldClose(window, static_cast<int>(WindowOption::CLOSE));
 	}
 }
+
+
 
 //Todo's refactor this
 namespace {
