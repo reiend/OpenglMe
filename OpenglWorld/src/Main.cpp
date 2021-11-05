@@ -55,6 +55,7 @@ int main(void)
 	// Resize render view relative to window
 	glfwSetFramebufferSizeCallback(window, resizeRenderView);
 
+
 	// Matrix for A
 	float vervtexPos[][9]{
 
@@ -236,8 +237,7 @@ int main(void)
 		"  color = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
 		"}\n"
 	};
-
-
+	
 
 	unsigned int shaderProgram1{ CreateShader(vertexShaderSource, fragmentShaderSource) };
 	unsigned int shaderProgram2{ CreateShader(vertexShaderSource, fragmentShaderSource2) };
