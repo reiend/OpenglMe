@@ -55,46 +55,106 @@ int main(void)
 	// Resize render view relative to window
 	glfwSetFramebufferSizeCallback(window, resizeRenderView);
 
-	// x,y coordinate discard z axis
-	float vertexPos[]{
-		// First triangle
-		-0.5f, -0.5f, 0.0f,        
-		-0.5f,  0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
+	// Matrix for A
+	float forA[][9]{
+
+		{
+			-1.0f, -0.5f, 0.0f,
+			-0.90f,-0.5f, 0.0f,
+			-0.80f, 0.5f, 0.0f
+		},
+
+		{
+			-0.80f, 0.5f, 0.0f,
+			-0.70f, 0.5f, 0.0f,
+			-0.90f,-0.5f, 0.0f,
+		},
+
+		{
+			-0.80f, 0.5f, 0.0f,
+			-0.60f, -0.5f, 0.0f,
+			-0.50f, -0.5f, 0.0f,
+		},
+
+		{
+			-0.50f, -0.5f, 0.0f,
+			-0.80f, 0.5f, 0.0f,
+			-0.70f, 0.5f, 0.0f
+		},
+
+		{
+			-0.90f, -0.20f, 0.0f,
+			-0.85f, -0.10f, 0.0f,
+			-0.60f, -0.20f, 0.0f,
+		},
+
+		{
+			-0.60f, -0.20f, 0.0f,
+			-0.65f, -0.10f, 0.0f,
+			-0.85f, -0.10f, 0.0f,
+		}
 	};
 
-	unsigned int indeces[]{
-		0, 1, 2,	// First triangle 
-		0, 3, 2,	// second triangle
+
+	// Matrix for T
+	float vertexPos[][9]{
+
+		{
+			-1.0f, -0.5f, 0.0f,
+			-0.90f,-0.5f, 0.0f,
+			-0.80f, 0.5f, 0.0f
+		},
+
+		{
+			-0.80f, 0.5f, 0.0f,
+			-0.70f, 0.5f, 0.0f,
+			-0.90f,-0.5f, 0.0f,
+		},
+
+		{
+			-0.80f, 0.5f, 0.0f,
+			-0.60f, -0.5f, 0.0f,
+			-0.50f, -0.5f, 0.0f,
+		},
+
+		{
+			-0.50f, -0.5f, 0.0f,
+			-0.80f, 0.5f, 0.0f,
+			-0.70f, 0.5f, 0.0f
+		},
+
+		{
+			-0.90f, -0.20f, 0.0f,
+			-0.85f, -0.10f, 0.0f,
+			-0.60f, -0.20f, 0.0f,
+		},
+
+		{
+			-0.60f, -0.20f, 0.0f,
+			-0.65f, -0.10f, 0.0f,
+			-0.85f, -0.10f, 0.0f,
+		}
 	};
 
-	// Vertex Buffer Object
-	unsigned int vertexBufferObject;
+	constexpr int bufferCountK{ 6 };
 
-	// Vertex Array object
-	unsigned int vertexArrayObject;
+	// First triangle
+	unsigned int vbo[bufferCountK];
+	unsigned int vao[bufferCountK];
 
-	// Element Buffer Object
-	unsigned int elementBufferObject;
+	glGenVertexArrays(bufferCountK, vao);
+	glGenBuffers(bufferCountK, vbo);
 
-	// Create A buffer
-	glGenBuffers(1, &vertexBufferObject);
-	glGenVertexArrays(1, &vertexArrayObject);
-	glGenBuffers(1, &elementBufferObject);
+	// Letter A
+	for (int i{ 0 }; i < std::size(forA); ++i) {
+		glBindVertexArray(vao[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(forA[i]), forA[i], GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
+		glEnableVertexAttribArray(0);
+	}
 
-	// Select buffer and inputs
-	glBindVertexArray(vertexArrayObject);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
-
-	// Specify layout for opengl
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
-	glEnableVertexAttribArray(0);
 
 	// Vertex Shader 
 	const char* vertexShaderSource{
@@ -119,7 +179,22 @@ int main(void)
 		"}\n"
 	};
 
-	glUseProgram(CreateShader(vertexShaderSource, fragmentShaderSource));
+	const char* fragmentShaderSource2{
+	"#version 330 core\n"
+	"\n"
+	"out vec4 color;\n"
+	"\n"
+	"void main()\n"
+	"{\n"
+	"  color = vec4(0.7f, 0.2f, 0.1f, 1.0f);\n"
+	"}\n"
+	};
+
+
+
+	unsigned int shaderProgram1{ CreateShader(vertexShaderSource, fragmentShaderSource) };
+	unsigned int shaderProgram2{ CreateShader(vertexShaderSource, fragmentShaderSource2) };
+
 	//glBindVertexArray(vertexArrayObject);
 
 	while (!glfwWindowShouldClose(window)) {
@@ -130,12 +205,27 @@ int main(void)
 		// Clear Screen
 		glClearColor(0.1f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
-		// Primitives to draw
-		//glDrawArrays(GL_TRIANGLES, 0, 3); // draw from vertex buffer
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	
+
+
+		glUseProgram(shaderProgram1);
+		glBindVertexArray(vao[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glBindVertexArray(vao[1]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glBindVertexArray(vao[2]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glBindVertexArray(vao[3]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glBindVertexArray(vao[4]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glBindVertexArray(vao[5]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
 
 		// Use color value for GLFW window
 		glfwSwapBuffers(window);
@@ -143,6 +233,13 @@ int main(void)
 		// Handle Events
 		glfwPollEvents();
 	}
+
+
+	glDeleteVertexArrays(bufferCountK, vao);
+	glDeleteBuffers(bufferCountK, vbo);
+
+	glDeleteProgram(shaderProgram1);
+	glDeleteProgram(shaderProgram2);
 
 
 	return 0;
@@ -176,7 +273,7 @@ namespace {
 
 		// Error Check
 		int result;
-	
+
 		glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &result);
 		if (result == GL_FALSE) {
 			int length;
@@ -192,6 +289,7 @@ namespace {
 		}
 		return shaderObject;
 	}
+
 
 	unsigned int CreateShader(const char* vertexShaderSource, const char* fragmentShaderSource) {
 
