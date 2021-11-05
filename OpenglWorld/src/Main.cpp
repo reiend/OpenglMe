@@ -56,8 +56,9 @@ int main(void)
 	glfwSetFramebufferSizeCallback(window, resizeRenderView);
 
 	// Matrix for A
-	float forA[][9]{
+	float vervtexPos[][9]{
 
+		// Letter A
 		{
 			-1.0f, -0.5f, 0.0f,
 			-0.90f,-0.5f, 0.0f,
@@ -92,51 +93,87 @@ int main(void)
 			-0.60f, -0.20f, 0.0f,
 			-0.65f, -0.10f, 0.0f,
 			-0.85f, -0.10f, 0.0f,
-		}
+		},
+
+		// Letter T
+		{
+			-0.25f,  0.5f, 0.0f,
+			-0.25f,  0.4f, 0.0f,
+			 0.25f,  0.5f, 0.0f,
+		},
+
+		{
+			 0.25f,  0.5f, 0.0f,
+			 0.25f,  0.4f, 0.0f,
+			-0.25f,  0.4f, 0.0f,
+		},
+
+		{
+			-0.05f,  0.4f, 0.0f,
+			 0.05f,  0.4f, 0.0f,
+			-0.05f, -0.5f, 0.0f,
+		},
+
+		{
+			 0.05f,  0.4f, 0.0f,
+			-0.05f, -0.5f, 0.0f,
+			 0.05f, -0.5f, 0.0f,
+
+		},
+
+
+		// letter O
+		{
+			1.0f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.5f, -0.4f, 0.0f,
+		},
+
+		{
+			1.0f, -0.5f, 0.0f,
+			1.0f, -0.4f, 0.0f,
+			0.5f, -0.4f, 0.0f,
+		},
+
+		{
+			1.0f, -0.5f, 0.0f,
+			0.9f, -0.5f, 0.0f,
+			1.0f,  0.5f, 0.0f,
+		},
+
+		{
+			1.0f,  0.5f, 0.0f,
+			0.9f,  0.5f, 0.0f,
+			0.9f, -0.5f, 0.0f,
+		},
+
+		{
+			1.0f,  0.5f, 0.0f,
+			1.0f,  0.4f, 0.0f,
+			0.5f,  0.5f, 0.0f
+		},
+
+		{
+			0.5f,  0.5f, 0.0f,
+			0.5f,  0.4f, 0.0f,
+			1.0f,  0.4f, 0.0f,
+		}, 
+
+		{
+			0.5f,  0.5f, 0.0f,
+			0.6f,  0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f
+		},
+
+		{
+			0.5f, -0.5f, 0.0f,
+			0.6f, -0.5f, 0.0f,
+			0.6f,  0.5f, 0.0f,
+	    },
+
 	};
 
-
-	// Matrix for T
-	float vertexPos[][9]{
-
-		{
-			-1.0f, -0.5f, 0.0f,
-			-0.90f,-0.5f, 0.0f,
-			-0.80f, 0.5f, 0.0f
-		},
-
-		{
-			-0.80f, 0.5f, 0.0f,
-			-0.70f, 0.5f, 0.0f,
-			-0.90f,-0.5f, 0.0f,
-		},
-
-		{
-			-0.80f, 0.5f, 0.0f,
-			-0.60f, -0.5f, 0.0f,
-			-0.50f, -0.5f, 0.0f,
-		},
-
-		{
-			-0.50f, -0.5f, 0.0f,
-			-0.80f, 0.5f, 0.0f,
-			-0.70f, 0.5f, 0.0f
-		},
-
-		{
-			-0.90f, -0.20f, 0.0f,
-			-0.85f, -0.10f, 0.0f,
-			-0.60f, -0.20f, 0.0f,
-		},
-
-		{
-			-0.60f, -0.20f, 0.0f,
-			-0.65f, -0.10f, 0.0f,
-			-0.85f, -0.10f, 0.0f,
-		}
-	};
-
-	constexpr int bufferCountK{ 6 };
+	const int bufferCountK{ static_cast<int>(std::size(vervtexPos)) };
 
 	// First triangle
 	unsigned int vbo[bufferCountK];
@@ -146,10 +183,10 @@ int main(void)
 	glGenBuffers(bufferCountK, vbo);
 
 	// Letter A
-	for (int i{ 0 }; i < std::size(forA); ++i) {
+	for (int i{ 0 }; i < bufferCountK; ++i) {
 		glBindVertexArray(vao[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[i]);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(forA[i]), forA[i], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vervtexPos[i]), vervtexPos[i], GL_STATIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0));
 		glEnableVertexAttribArray(0);
 	}
@@ -175,25 +212,36 @@ int main(void)
 		"\n"
 		"void main()\n"
 		"{\n"
-		"  color = vec4(0.2f, 0.5f, 0.2f, 1.0f);\n"
+		"  color = vec4(0.0f, 0.0f, 1.0f, 1.0f);\n"
 		"}\n"
 	};
 
 	const char* fragmentShaderSource2{
-	"#version 330 core\n"
-	"\n"
-	"out vec4 color;\n"
-	"\n"
-	"void main()\n"
-	"{\n"
-	"  color = vec4(0.7f, 0.2f, 0.1f, 1.0f);\n"
-	"}\n"
+		"#version 330 core\n"
+		"\n"
+		"out vec4 color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"  color = vec4(0.0f, 1.0f, 0.0f, 1.0f);\n"
+		"}\n"
+	};	
+	const char* fragmentShaderSource3{
+		"#version 330 core\n"
+		"\n"
+		"out vec4 color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"  color = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
+		"}\n"
 	};
 
 
 
 	unsigned int shaderProgram1{ CreateShader(vertexShaderSource, fragmentShaderSource) };
 	unsigned int shaderProgram2{ CreateShader(vertexShaderSource, fragmentShaderSource2) };
+	unsigned int shaderProgram3{ CreateShader(vertexShaderSource, fragmentShaderSource3) };
 
 	//glBindVertexArray(vertexArrayObject);
 
@@ -208,23 +256,21 @@ int main(void)
 
 
 		glUseProgram(shaderProgram1);
-		glBindVertexArray(vao[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		for (int i{ 0 }; i < 6; ++i) {
+			glBindVertexArray(vao[i]);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+		}
 
-		glBindVertexArray(vao[1]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glBindVertexArray(vao[2]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glBindVertexArray(vao[3]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glBindVertexArray(vao[4]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glBindVertexArray(vao[5]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glUseProgram(shaderProgram2);
+		for (int i{ 6 }; i < 10; ++i) {
+			glBindVertexArray(vao[i]);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+		}
+		glUseProgram(shaderProgram3);
+		for (int i{ 10 }; i < bufferCountK; ++i) {
+			glBindVertexArray(vao[i]);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+		}
 
 
 		// Use color value for GLFW window
