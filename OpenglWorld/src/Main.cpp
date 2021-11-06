@@ -2,10 +2,16 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
+
+#include "./inits/glfwInit.h"
+#include "./inits/gladInit.h"
+#include "./window/windowsWindow.h"
+#include "./viewport/viewport.h"
+
+
 #include <iostream>
 #include <string>
 
-void resizeRenderView(GLFWwindow* window, int width, int height);
 void closeWindowEvent(GLFWwindow* window);
 
 
@@ -16,6 +22,8 @@ namespace {
 
 constexpr int WIDTH{ 1000 };
 constexpr int HEIGHT{ 800 };
+const char* TITLE{ "Reiend" };
+
 
 enum class WindowOption {
 	OPEN,
@@ -25,35 +33,16 @@ enum class WindowOption {
 int main(void)
 {
 
-	// GLFW init
-	glfwInit();
-
-	// Config
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+	initGlfw();
 	// Create window
-	GLFWwindow* window{ glfwCreateWindow(WIDTH, HEIGHT, "Reiend", NULL, NULL) };
-	if (window == NULL) {
-		std::cout << "GLFW window: ERROR\n";
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
+	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, TITLE) };
+	
+	initGlad();
 
-	// GLAD init
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "GLAD init: ERROR\n";
-		glfwTerminate();
-		return -1;
-	}
+	setViewport(WIDTH, HEIGHT);
 
-	// Render viewport
-	glViewport(0, 0, WIDTH, HEIGHT);
+	resizeRenderView(window);
 
-	// Resize render view relative to window
-	glfwSetFramebufferSizeCallback(window, resizeRenderView);
 
 	// x,y coordinate discard z axis
 	float vertexPos[]{
@@ -148,11 +137,6 @@ int main(void)
 	return 0;
 }
 
-
-// Resize render view according to window's
-void resizeRenderView(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
-}
 
 
 // Process window close event
