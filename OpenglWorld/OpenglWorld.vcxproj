@@ -124,6 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,6 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,22 +151,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\events\util.cpp" />
+    <ClCompile Include="src\render\render.cpp" />
+    <ClCompile Include="src\shaders\shader.cpp" />
+    <ClCompile Include="src\buffers\buffer.cpp" />
+    <ClCompile Include="src\buffers\bufferConfig.cpp" />
+    <ClCompile Include="src\buffers\bufferLayout.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\init\gladInit.cpp" />
+    <ClCompile Include="src\inits\gladInit.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\init\glfwInit.cpp" />
+    <ClCompile Include="src\inits\glfwInit.cpp" />
+    <ClCompile Include="src\shaders\shaderTemp.cpp" />
     <ClCompile Include="src\viewport\viewport.cpp" />
     <ClCompile Include="src\window\windowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\FragmentShader.glsl" />
-    <None Include="shaders\VertexShader.glsl" />
+    <None Include="src\shaders\fs\FragmentShader.glsl" />
+    <None Include="src\shaders\vs\VertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\events\util.h" />
+    <ClInclude Include="src\render\render.h" />
+    <ClInclude Include="src\shaders\shader.h" />
+    <ClInclude Include="src\buffers\buffer.h" />
+    <ClInclude Include="src\buffers\bufferConfig.h" />
+    <ClInclude Include="src\buffers\bufferLayout.h" />
     <ClInclude Include="src\includes\includes.h" />
-    <ClInclude Include="src\init\gladInit.h" />
-    <ClInclude Include="src\init\glfwInit.h" />
+    <ClInclude Include="src\inits\gladInit.h" />
+    <ClInclude Include="src\inits\glfwInit.h" />
+    <ClInclude Include="src\shaders\shaderTemp.h" />
     <ClInclude Include="src\viewport\viewport.h" />
+    <ClInclude Include="src\window\windowUtils.h" />
     <ClInclude Include="src\window\windowsWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
