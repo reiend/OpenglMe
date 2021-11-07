@@ -8,23 +8,15 @@
 #include "./buffers/bufferConfig.h"
 #include "./buffers/bufferLayout.h"
 #include "./shaders/shader.h"
-#include "./shaders/shaderTemp.h"
+//#include "./shaders/shaderTemp.h"
 #include "./render/render.h"
+#include "./shaders/shaderC.h"
 
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <string>
-
-void closeWindowEvent(GLFWwindow* window);
-
-enum class WindowOption {
-	OPEN,
-	CLOSE,
-};
-
-
 
 int main(void)
 {
@@ -34,7 +26,7 @@ int main(void)
 	initGlfw();
 	// Create window
 	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, TITLE) };
-	
+
 	initGlad();
 
 	setViewport(HEIGHT, HEIGHT);
@@ -42,20 +34,26 @@ int main(void)
 	resizeRenderView(window);
 
 	// x,y coordinate discard z axis
+	//float vertexPos[]{
+	//	// positions         // colors
+	//	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+	//   -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
+	//	0.0f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f   // top 
+	//	 //0.5f, -0.5f, 0.0f,
+	//};
+
 	float vertexPos[]{
-		// positions         // colors
-		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-	   -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-		0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
-		 //0.5f, -0.5f, 0.0f,
+		// positions        
+		 0.5f, -0.5f, 0.0f,
+	    -0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f,
 	};
 
 	//unsigned int indeces[]{
 	//	0, 1, 2,	// First triangle 
-	//	//0, 3, 2,	// second triangle
+	//	//0, 3, 2,	// second triangle	
 	//};
 
-	
 	unsigned int vertexBufferObject;		// Vertex Buffer Object
 	unsigned int vertexArrayObject;			// Vertex Array object
 	unsigned int elementBufferObject;		// Element Buffer Object
@@ -63,25 +61,28 @@ int main(void)
 
 	setBuffers(1, vertexBufferObject, vertexArrayObject, elementBufferObject);
 
-	configBuffer(GL_ARRAY_BUFFER, vertexBufferObject, sizeof(vertexPos), vertexPos, 
+	configBuffer(GL_ARRAY_BUFFER, vertexBufferObject, sizeof(vertexPos), vertexPos,
 		GL_STATIC_DRAW);
 	//configBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject, sizeof(indeces), indeces, GL_STATIC_DRAW);
 
 	// Specify layout for opengl
-	setBufferLayout(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0, 0);
+	//setBufferLayout(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0, 0);
+	//setBufferLayout(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)), 1);
+	setBufferLayout(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0, 0);
 
-	setBufferLayout(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)), 1);
+	//GLuint shaderProgram{ Shader::CreateShader(vertexShaderSource, fragmentShaderSource) };
+	//ShaderC shaders{ "../OpenglWorld/src/shaders/vs/VertexShader.glsl", "../OpenglWorld/src/shaders/fs/FragmentShader.glsl" };
 
+	ShaderC shaders{ "src/shaders/vs/VertexShader.glsl", "src/shaders/fs/FragmentShader.glsl" };
 
-	GLuint shaderProgram{ Shader::CreateShader(vertexShaderSource, fragmentShaderSource) };
-
-	renderLoop(window, shaderProgram, vertexArrayObject);
+	renderLoop(window, shaders.ID, vertexArrayObject);
 
 	glDeleteVertexArrays(1, &vertexArrayObject);
 	glDeleteBuffers(1, &vertexBufferObject);
-	glDeleteProgram(shaderProgram);
+	glDeleteProgram(shaders.ID);
 
 	std::cout << (GL_MAX_VERTEX_ATTRIBS) << '\n';
+
 	return 0;
 }
 

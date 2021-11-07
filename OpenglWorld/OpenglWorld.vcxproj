@@ -125,6 +125,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenglWorld\src\</AdditionalIncludeDirectories>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +143,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)OpenglWorld\src\</AdditionalIncludeDirectories>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,13 +165,14 @@
     <ClCompile Include="src\inits\gladInit.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\inits\glfwInit.cpp" />
-    <ClCompile Include="src\shaders\shaderTemp.cpp" />
     <ClCompile Include="src\viewport\viewport.cpp" />
     <ClCompile Include="src\window\windowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FragmentShader.glsl" />
     <None Include="src\shaders\fs\FragmentShader.glsl" />
     <None Include="src\shaders\vs\VertexShader.glsl" />
+    <None Include="VertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\events\util.h" />
@@ -179,7 +184,7 @@
     <ClInclude Include="src\includes\includes.h" />
     <ClInclude Include="src\inits\gladInit.h" />
     <ClInclude Include="src\inits\glfwInit.h" />
-    <ClInclude Include="src\shaders\shaderTemp.h" />
+    <ClInclude Include="src\shaders\shaderC.h" />
     <ClInclude Include="src\viewport\viewport.h" />
     <ClInclude Include="src\window\windowUtils.h" />
     <ClInclude Include="src\window\windowsWindow.h" />

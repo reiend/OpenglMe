@@ -45,9 +45,6 @@
     <ClCompile Include="src\shaders\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\shaders\shaderTemp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\render\render.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,6 +55,8 @@
   <ItemGroup>
     <None Include="src\shaders\vs\VertexShader.glsl" />
     <None Include="src\shaders\fs\FragmentShader.glsl" />
+    <None Include="FragmentShader.glsl" />
+    <None Include="VertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inits\glfwInit.h">
@@ -87,9 +86,6 @@
     <ClInclude Include="src\shaders\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\shaders\shaderTemp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\render\render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -97,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\window\windowUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shaders\shaderC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

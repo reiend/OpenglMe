@@ -31,9 +31,6 @@ void renderLoop(GLFWwindow* window, GLuint program, GLuint vao) {
 		//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-
-
-
 		// Use color value for GLFW window
 		glfwSwapBuffers(window);
 
