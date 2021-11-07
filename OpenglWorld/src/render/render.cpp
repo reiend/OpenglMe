@@ -4,8 +4,12 @@
 #include "../events/util.h"
 #include "render.h"
 
+#include <cmath>
+#include <iostream>
 
-void renderLoop(GLFWwindow* window) {
+
+
+void renderLoop(GLFWwindow* window, GLuint program, GLuint vao) {
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -16,11 +20,18 @@ void renderLoop(GLFWwindow* window) {
 		glClearColor(0.1f, 0.4f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		//float timeValue{ static_cast<float>(glfwGetTime()) };
+		//float genValue{ (sin(timeValue) / 2.0f) + 0.5f};
+		////std::cout << timeValue << '\n';
+		//int vertexColorLoc{ glGetUniformLocation(program, "cpuColor") };
+
+		//glUniform4f(vertexColorLoc, 1.0f, genValue, 1.0f, 1.0f);
+		glUseProgram(program);
+		glBindVertexArray(vao);
+		//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 		// Use color value for GLFW window

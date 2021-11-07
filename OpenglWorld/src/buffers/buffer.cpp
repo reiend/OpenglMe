@@ -9,7 +9,7 @@ void setBuffers(int count, unsigned int& vertexBufferObject, unsigned int& verte
 	glGenBuffers(count, &vertexBufferObject);
 	glGenVertexArrays(count, &vertexArrayObject);
 	glGenBuffers(count, &elementBufferObject);
-
 	glBindVertexArray(vertexArrayObject);
+
 }
 
