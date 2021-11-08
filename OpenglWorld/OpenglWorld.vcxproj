@@ -155,39 +155,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\events\util.cpp" />
-    <ClCompile Include="src\render\render.cpp" />
-    <ClCompile Include="src\shaders\shader.cpp" />
-    <ClCompile Include="src\buffers\buffer.cpp" />
-    <ClCompile Include="src\buffers\bufferConfig.cpp" />
-    <ClCompile Include="src\buffers\bufferLayout.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\inits\gladInit.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\inits\glfwInit.cpp" />
-    <ClCompile Include="src\viewport\viewport.cpp" />
-    <ClCompile Include="src\window\windowsWindow.cpp" />
+    <ClCompile Include="src\shaders\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FragmentShader.glsl" />
-    <None Include="src\shaders\fs\FragmentShader.glsl" />
-    <None Include="src\shaders\vs\VertexShader.glsl" />
-    <None Include="VertexShader.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\events\util.h" />
-    <ClInclude Include="src\render\render.h" />
     <ClInclude Include="src\shaders\shader.h" />
-    <ClInclude Include="src\buffers\buffer.h" />
-    <ClInclude Include="src\buffers\bufferConfig.h" />
-    <ClInclude Include="src\buffers\bufferLayout.h" />
-    <ClInclude Include="src\includes\includes.h" />
-    <ClInclude Include="src\inits\gladInit.h" />
-    <ClInclude Include="src\inits\glfwInit.h" />
-    <ClInclude Include="src\shaders\shaderC.h" />
-    <ClInclude Include="src\viewport\viewport.h" />
-    <ClInclude Include="src\window\windowUtils.h" />
-    <ClInclude Include="src\window\windowsWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\fragmentShader\fragmentShaderTest.glsl" />
+    <None Include="src\shaders\fragmentShader\fragmentShaderTest2.glsl" />
+    <None Include="src\shaders\fragmentShader\fragmentShaderTest3.glsl" />
+    <None Include="src\shaders\vertexShader\vertexShaderTest.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
