@@ -1,79 +1,53 @@
 
 
-#include "./inits/glfwInit.h"
-#include "./inits/gladInit.h"
-#include "./window/windowsWindow.h"
-#include "./window/windowUtils.h"
 #include "./viewport/viewport.h"
-#include "./buffers/buffer.h"
-#include "./buffers/bufferConfig.h"
-#include "./buffers/bufferLayout.h"
-#include "./shaders/shader.h"
-#include "./shaders/shaderTemp.h"
-#include "./render/render.h"
+#include "./windows/windowUtils.h"
+#include "./inits/gladInit.h"
+#include "./windows/windowsWindows.h"
+#include "./inits/glfwInit.h"
+
 
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-#include <string>
-
-void closeWindowEvent(GLFWwindow* window);
-
-enum class WindowOption {
-	OPEN,
-	CLOSE,
-};
 
 
 
-int main(void)
-{
-	// Temp
-	using namespace WindowUtils;
+int main(void) {
+	using namespace WindowInfo;
 
+
+	// Use Window and dependencies
 	initGlfw();
-	// Create window
-	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, TITLE) };
-	
+	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, WINDOW_NAME)};
 	initGlad();
 
-	setViewport(HEIGHT, HEIGHT);
-
-	resizeRenderView(window);
-
-	// x,y coordinate discard z axis
-	float vertexPos[]{
-		// First triangle
-		-0.5f, -0.5f, 0.0f,        
-		-0.5f,  0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-	};
-
-	unsigned int indeces[]{
-		0, 1, 2,	// First triangle 
-		0, 3, 2,	// second triangle
-	};
-
+	// Handle Viewport 
+	setViewport(WIDTH, HEIGHT);
+	resizeViewport(window);
 	
-	unsigned int vertexBufferObject;		// Vertex Buffer Object
-	unsigned int vertexArrayObject;			// Vertex Array object
-	unsigned int elementBufferObject;		// Element Buffer Object
 
-	setBuffers(1, vertexBufferObject, vertexArrayObject, elementBufferObject);
 
-	configBuffer(GL_ARRAY_BUFFER, vertexBufferObject, sizeof(vertexPos), vertexPos, 
-		GL_STATIC_DRAW);
-	configBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject, sizeof(indeces), indeces, GL_STATIC_DRAW);
+	while (!glfwWindowShouldClose(window)) {
 
-	// Specify layout for opengl
-	setBufferLayout(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(0), 0);
 
-	glUseProgram(Shader::CreateShader(vertexShaderSource, fragmentShaderSource));
-	
-	renderLoop(window);
+		// Exit Screen
+
+
+		// Clear screen using colors
+		glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+
+
+
+		// Swap buffers for smooth render
+		glfwSwapBuffers(window);
+
+		// Handle events
+		glfwPollEvents();
+
+	}
 
 	return 0;
 }
-

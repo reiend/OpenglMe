@@ -1,13 +1,17 @@
 
+#include "./viewport.h"
+
 #include "../includes/includes.h"
 
-void setViewport(int width, int height, int xPos = 0, int yPos = 0) {
+
+void setViewport(const int width, const int height, const int xPos, const int yPos) {
 	glViewport(xPos, yPos, width, height);
 }
-void setViewport(GLFWwindow* window, int width, int height) {
-	setViewport(width, height);
+
+void setViewport(GLFWwindow* window, const int width, const int height) {
+	glViewport(0, 0, width, height);
 }
 
-void resizeRenderView(GLFWwindow* window) {
+void resizeViewport(GLFWwindow* window) {
 	glfwSetFramebufferSizeCallback(window, setViewport);
 }
