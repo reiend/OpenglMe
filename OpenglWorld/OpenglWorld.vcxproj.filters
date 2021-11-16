@@ -36,6 +36,9 @@
     <ClCompile Include="src\viewport\viewport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="res\shaders\shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inits\gladInit.h">
@@ -53,5 +56,12 @@
     <ClInclude Include="src\viewport\viewport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="res\shaders\shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragmentShader.glsl" />
+    <None Include="vertexShader.glsl" />
   </ItemGroup>
 </Project>

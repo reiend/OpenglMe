@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="res\shaders\shaders.cpp" />
     <ClCompile Include="src\includes\includes.h" />
     <ClCompile Include="src\inits\gladInit.cpp" />
     <ClCompile Include="src\inits\glfwInit.cpp" />
@@ -160,11 +161,16 @@
     <ClCompile Include="src\windows\windowsWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\shaders\shaders.h" />
     <ClInclude Include="src\inits\gladInit.h" />
     <ClInclude Include="src\inits\glfwInit.h" />
     <ClInclude Include="src\viewport\viewport.h" />
     <ClInclude Include="src\windows\windowsWindows.h" />
     <ClInclude Include="src\windows\windowUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragmentShader.glsl" />
+    <None Include="vertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
