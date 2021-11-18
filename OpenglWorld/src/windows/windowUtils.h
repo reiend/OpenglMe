@@ -14,8 +14,8 @@ namespace WindowInfo {
 
 namespace WindowOption {
 	enum class Option {
-		CLOSE,
 		OPEN,
+		CLOSE,
 	};
 }
 

@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="res\shaders\shaders.cpp" />
+    <ClCompile Include="src\events\utilsEvents.cpp" />
     <ClCompile Include="src\includes\includes.h" />
     <ClCompile Include="src\inits\gladInit.cpp" />
     <ClCompile Include="src\inits\glfwInit.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\shaders\shaders.h" />
+    <ClInclude Include="src\events\utilsEvents.h" />
     <ClInclude Include="src\inits\gladInit.h" />
     <ClInclude Include="src\inits\glfwInit.h" />
     <ClInclude Include="src\viewport\viewport.h" />

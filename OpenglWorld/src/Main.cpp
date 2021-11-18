@@ -1,5 +1,5 @@
 
-
+#include "./events/utilsEvents.h"
 #include "../res/shaders/shaders.h"
 #include "./viewport/viewport.h"
 #include "./windows/windowUtils.h"
@@ -71,6 +71,10 @@ int main(void) {
 
 
 		// Exit Screen
+		closeWindow(window);
+
+		// Toggle Wireframe
+
 
 
 		// Clear screen using colors
