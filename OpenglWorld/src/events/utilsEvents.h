@@ -7,5 +7,6 @@
 #include "../includes/includes.h"
 
 void closeWindow(GLFWwindow* window);
+void enableWireframe(GLFWwindow* window);
 
 #endif 

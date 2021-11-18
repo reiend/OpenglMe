@@ -74,7 +74,7 @@ int main(void) {
 		closeWindow(window);
 
 		// Toggle Wireframe
-
+		enableWireframe(window);
 
 
 		// Clear screen using colors
@@ -87,6 +87,7 @@ int main(void) {
 
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+		
 
 
 		// Swap buffers for smooth render
