@@ -19,36 +19,42 @@ int main(void) {
 
 	// Use Window and dependencies
 	initGlfw();
-	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, WINDOW_NAME)};
+	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, WINDOW_NAME) };
 	initGlad();
 
 	// Handle Viewport 
 	setViewport(WIDTH, HEIGHT);
 	resizeViewport(window);
-	
 
 
+
+
+	//float vertexPos[]{
+	//	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+	//   -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
+	//	0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
+	//   //-0.5f,  0.5f, 0.0f,
+	//};
 
 	float vertexPos[]{
-	   -0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.5f,  0.5f, 0.0f,
-	   -0.5f,  0.5f, 0.0f,
+	   -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+	    0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
+		0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
 	};
-	
-	unsigned int indexPos[]{
+
+	/*unsigned int indexPos[]{
 		0, 1, 2,
-		2, 3, 0,
-	};
+		3, 2, 0,
+	};*/
 
 
 	unsigned int vertexArrayObject;
 	unsigned int vertexBufferObject;
-	unsigned int elementBufferObject;
+	//unsigned int elementBufferObject;
 
 	glGenVertexArrays(1, &vertexArrayObject);
 	glGenBuffers(1, &vertexBufferObject);
-	glGenBuffers(1, &elementBufferObject);
+	//glGenBuffers(1, &elementBufferObject);
 
 
 	glBindVertexArray(vertexArrayObject);
@@ -56,16 +62,19 @@ int main(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexPos), indexPos, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexPos), indexPos, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 
+	Shader customShader("vertexShader.glsl", "fragmentShader.glsl");
+	customShader.useProgram();
 
-	Shader customShader("vertexShader.glsl", "fragmentShader.glsl");	
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -80,14 +89,13 @@ int main(void) {
 		// Clear screen using colors
 		glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
+
 		customShader.useProgram();
 		glBindVertexArray(vertexArrayObject);
-	
 
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-		
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+
 
 
 		// Swap buffers for smooth render
@@ -101,6 +109,7 @@ int main(void) {
 	glDeleteProgram(customShader.ID);
 	glDeleteBuffers(1, &vertexBufferObject);
 	glDeleteVertexArrays(1, &vertexArrayObject);
+	//glDeleteBuffers(1, &elementBufferObject);
 
 	return 0;
 }
