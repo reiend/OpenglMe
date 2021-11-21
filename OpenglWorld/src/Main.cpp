@@ -10,12 +10,8 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
-
-
-
 int main(void) {
 	using namespace WindowInfo;
-
 
 	// Use Window and dependencies
 	initGlfw();
@@ -27,8 +23,6 @@ int main(void) {
 	resizeViewport(window);
 
 
-
-
 	//float vertexPos[]{
 	//	0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
 	//   -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
@@ -37,15 +31,36 @@ int main(void) {
 	//};
 
 	float vertexPos[]{
-	   -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-	    0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-		0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+		 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
+		 0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
 	};
 
 	/*unsigned int indexPos[]{
 		0, 1, 2,
 		3, 2, 0,
 	};*/
+
+	float textureCoordinates[]{
+		0.0f, 0.0f, // bottom left corner of image
+		1.0f, 0.0f, // bottom right corner of image
+		1.0f, 1.0f, // bottom left corner of image
+	};
+
+	
+	// Texture Wrapping
+	// S, T, R = X, Y, Z
+	glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+
+	// Texture Filtering
+	// 
+	// GL_NEAREST - use closes pixel - pixelized edge
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);	
+	// GL_LINEAR - use color between pixel - smoother edge
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	
+
+	// Mipmaps
 
 
 	unsigned int vertexArrayObject;
@@ -70,6 +85,10 @@ int main(void) {
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+
+
+
 
 
 	Shader customShader("vertexShader.glsl", "fragmentShader.glsl");
