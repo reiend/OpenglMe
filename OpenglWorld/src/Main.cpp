@@ -48,14 +48,14 @@ int main(void) {
 	};
 
 	
-	// Texture Wrapping
+	// Texture Wrapping - how to color things using a paper texture
 	// S, T, R = X, Y, Z
 	glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 
-	// Texture Filtering
+	// Texture Filtering - how coloring works on paper texture
 	// 
-	// GL_NEAREST - use closes pixel - pixelized edge
+	// GL_NEAREST - use closest pixel - pixelized edge
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);	
 	// GL_LINEAR - use color between pixel - smoother edge
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	
