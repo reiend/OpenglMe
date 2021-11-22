@@ -42,6 +42,9 @@
     <ClCompile Include="src\events\utilsEvents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="res\imageLoader\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inits\gladInit.h">
@@ -65,10 +68,11 @@
     <ClInclude Include="src\events\utilsEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="res\imageLoader\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\shaderSoure\fragmentShader.glsl" />
-    <None Include="res\shaders\shaderSoure\vertexShader.glsl" />
     <None Include="res\shaders\shaderSource\fragmentShader.glsl" />
     <None Include="res\shaders\shaderSource\vertexShader.glsl" />
   </ItemGroup>

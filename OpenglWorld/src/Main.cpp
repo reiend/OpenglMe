@@ -1,4 +1,5 @@
 
+
 #include "./events/utilsEvents.h"
 #include "../res/shaders/shaders.h"
 #include "./viewport/viewport.h"
@@ -7,6 +8,7 @@
 #include "./windows/windowsWindows.h"
 #include "./inits/glfwInit.h"
 
+#include <stb_image.h>
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -31,7 +33,7 @@ int main(void) {
 	//};
 
 	float vertexPos[]{
-        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
 		 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
 		 0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
 	};
@@ -60,7 +62,27 @@ int main(void) {
 	// GL_LINEAR - use color between pixel - smoother edge
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	
 
-	// Mipmaps
+	// Mipmaps	- paper coloring depends on distance
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+	// Image loader
+	int width;
+	int height;
+	int channels;
+	unsigned char* data{ stbi_load("assets/create.jpg", &width, &height,&channels, 0) };
+
+	// textureBuffer
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	
+	// Generate texture 
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+
 
 
 	unsigned int vertexArrayObject;
@@ -87,11 +109,7 @@ int main(void) {
 	glEnableVertexAttribArray(1);
 
 
-
-
-
-
-	Shader customShader("vertexShader.glsl", "fragmentShader.glsl");
+	Shader customShader("shaders/shaderSource/vertexShader.glsl", "shaders/shaderSource/fragmentShader.glsl");
 	customShader.useProgram();
 
 

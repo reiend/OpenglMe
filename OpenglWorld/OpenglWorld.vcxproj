@@ -80,14 +80,14 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(ProjectDir)res\imageLoader;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\GLFW\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(ProjectDir)res\imageLoader;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\GLFW\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="res\imageLoader\stb_image.cpp" />
     <ClCompile Include="res\shaders\shaders.cpp" />
     <ClCompile Include="src\events\utilsEvents.cpp" />
     <ClCompile Include="src\includes\includes.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\windows\windowsWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\imageLoader\stb_image.h" />
     <ClInclude Include="res\shaders\shaders.h" />
     <ClInclude Include="src\events\utilsEvents.h" />
     <ClInclude Include="src\inits\gladInit.h" />
