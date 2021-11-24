@@ -2,4 +2,4 @@
 Learning Computer Graphics through Opengl
 
 # My First Texture texture on Opengl
-![](OpenglWorld/res/assets/ropeFlat.png)
+![](OpenglWorld/res/assets/MyFirstTextureRope.png)
