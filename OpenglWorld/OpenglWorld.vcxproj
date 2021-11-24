@@ -80,14 +80,14 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(ProjectDir)res\imageLoader;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\GLFW\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(ProjectDir)res\imageLoader;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\GLFW\includes;$(SolutionDir)dependencies\GLAD\includes;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\GLFW\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -175,6 +175,10 @@
   <ItemGroup>
     <None Include="res\shaders\shaderSource\fragmentShader.glsl" />
     <None Include="res\shaders\shaderSource\vertexShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\assets\create.jpg" />
+    <Image Include="res\assets\ropeFlat.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

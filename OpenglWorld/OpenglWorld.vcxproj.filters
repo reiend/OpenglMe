@@ -76,4 +76,12 @@
     <None Include="res\shaders\shaderSource\fragmentShader.glsl" />
     <None Include="res\shaders\shaderSource\vertexShader.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\assets\create.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\assets\ropeFlat.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
