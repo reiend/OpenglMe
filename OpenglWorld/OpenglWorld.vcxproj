@@ -178,7 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\assets\create.jpg" />
+    <Image Include="res\assets\MyFirstTextureRope.png" />
     <Image Include="res\assets\ropeFlat.png" />
+    <Image Include="res\assets\SmilingPeace.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

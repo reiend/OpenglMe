@@ -67,6 +67,10 @@ public:
 	void useProgram() {
 		glUseProgram(ID);
 	}
+
+	void setInt(const std::string& name, int value) const { // to use only const value and avoid modification
+		glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+	}
 };
 
 

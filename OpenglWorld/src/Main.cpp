@@ -34,15 +34,19 @@ int main(void) {
 
 	float vertexPos[]{
 		// positions          // colors           // texture coords
-		-0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-		 0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+		// -> 8 stride
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,			// top right
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,			// bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,			// bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f			// top left 
 	};
 
 	unsigned int indexPos[]{
-		0, 1, 2,
-		2, 3, 0,
+
+		// first triangle
+		0, 1, 3, 
+		// second triangle
+		1, 2, 3  
 	};
 
 	unsigned int vertexArrayObject;
@@ -73,48 +77,85 @@ int main(void) {
 
 
 	// textureBuffer
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	unsigned int texture1;
+	glGenTextures(1, &texture1);
+	glActiveTexture(GL_TEXTURE);
+	glBindTexture(GL_TEXTURE_2D, texture1);
 
 	// Texture Wrapping - how to color things using a paper texture
 	// S, T, R = X, Y, Z
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	// Texture Filtering - how coloring works on paper texture
-	// 
-	// GL_NEAREST - use closest pixel - pixelized edge
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	// GL_LINEAR - use color between pixel - smoother edge
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//// Texture Filtering - how coloring works on paper texture
+	//// 
+	//// GL_NEAREST - use closest pixel - pixelized edge
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//// GL_LINEAR - use color between pixel - smoother edge
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// Mipmaps	- paper coloring depends on distance
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+
+
+	Shader customShader("shaders/shaderSource/vertexShader.glsl", "shaders/shaderSource/fragmentShader.glsl");
 	// Image loader
 	int width;
 	int height;
 	int channels;
-	unsigned char* data{ stbi_load("assets/ropeFlat.png", &width, &height,&channels, 0) };
+		stbi_set_flip_vertically_on_load(true);
+	unsigned char* textureData{ stbi_load("assets/ropeFlat.png", &width, &height,&channels, 0) };
 
-
-	if (data) {
+	if (textureData) {
 		// Generate texture 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else {
-		std::cout << "Texture failed: ERROR\n";
-
+		std::cout << "Texture1 failed: ERROR\n";
 	}
 
-	stbi_image_free(data);
+	stbi_image_free(textureData);
+
+	unsigned int texture2;
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+
+	// Texture Wrapping - how to color things using a paper texture
+	// S, T, R = X, Y, Z
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	//// Texture Filtering - how coloring works on paper texture
+	//// 
+	//// GL_NEAREST - use closest pixel - pixelized edge
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//// GL_LINEAR - use color between pixel - smoother edge
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Mipmaps	- paper coloring depends on distance
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
-	Shader customShader("shaders/shaderSource/vertexShader.glsl", "shaders/shaderSource/fragmentShader.glsl");
+	textureData = stbi_load("assets/SmilingPeace.png", &width, &height, &channels, 0) ;
+
+	if (textureData) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		std::cout << "Texture2 failed: ERROR\n";
+	}
+
+
+	stbi_image_free(textureData);
+
 	customShader.useProgram();
+	glUniform1i(glGetUniformLocation(customShader.ID, "textureSample1"), 0);
+	customShader.setInt("textureSample2", 1);
 
 
 	while (!glfwWindowShouldClose(window)) {
@@ -131,13 +172,16 @@ int main(void) {
 		glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
+
 		customShader.useProgram();
 		glBindVertexArray(vertexArrayObject);
-		
-
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+	
 
 
 
@@ -154,5 +198,7 @@ int main(void) {
 	glDeleteVertexArrays(1, &vertexArrayObject);
 	//glDeleteBuffers(1, &elementBufferObject);
 
+
+	glfwTerminate();
 	return 0;
 }

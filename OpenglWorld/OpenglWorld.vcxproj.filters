@@ -83,5 +83,11 @@
     <Image Include="res\assets\ropeFlat.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\assets\MyFirstTextureRope.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\assets\SmilingPeace.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
