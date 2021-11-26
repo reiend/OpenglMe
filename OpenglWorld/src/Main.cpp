@@ -27,9 +27,7 @@ int main(void) {
 	setViewport(WIDTH, HEIGHT);
 	resizeViewport(window);
 
-	//unsigned int vertexArrayObject;
-	//glGenVertexArrays(1, &vertexArrayObject);
-	//glBindVertexArray(vertexArrayObject);
+	// Buffers
 	Buffer* vao = new Buffer(BufferType::VAO);
 	Buffer* vbo = new Buffer(BufferType::VBO, GL_ARRAY_BUFFER, 1);
 	Buffer* ebo = new Buffer(BufferType::EBO, GL_ELEMENT_ARRAY_BUFFER, 1);
@@ -132,8 +130,6 @@ int main(void) {
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		customShader.useProgram();
-		//glBindVertexArray(vertexArrayObject);
-		//vao->bind();
 		glBindVertexArray(vao->getBufferObject());
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
@@ -145,14 +141,19 @@ int main(void) {
 		glfwPollEvents();
 	}
 
-	
+
+	// Freeing memory of Buffers
 	glDeleteProgram(customShader.ID);
 	ebo->clearBuffer(BufferType::EBO, 1);
 	ebo->clearBuffer(BufferType::VBO, 1);
 	ebo->clearBuffer(BufferType::VAO, 1);
+
+	// Deallocating, returning memory from the heap
 	delete vbo;
 	delete ebo;
 	delete vao;
+
+	// No set nullptr == end
 	glfwTerminate();
 
 
