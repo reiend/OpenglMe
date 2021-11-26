@@ -27,12 +27,12 @@ int main(void) {
 	setViewport(WIDTH, HEIGHT);
 	resizeViewport(window);
 
-	unsigned int vertexArrayObject;
-	glGenVertexArrays(1, &vertexArrayObject);
-	glBindVertexArray(vertexArrayObject);
-
-	Buffer* vbo = new Buffer(BufferType::vbo, GL_ARRAY_BUFFER, 1);
-	Buffer* ebo = new Buffer(BufferType::ebo, GL_ELEMENT_ARRAY_BUFFER, 1);
+	//unsigned int vertexArrayObject;
+	//glGenVertexArrays(1, &vertexArrayObject);
+	//glBindVertexArray(vertexArrayObject);
+	Buffer* vao = new Buffer(BufferType::VAO);
+	Buffer* vbo = new Buffer(BufferType::VBO, GL_ARRAY_BUFFER, 1);
+	Buffer* ebo = new Buffer(BufferType::EBO, GL_ELEMENT_ARRAY_BUFFER, 1);
 
 	
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -56,13 +56,6 @@ int main(void) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	//// Texture Filtering - how coloring works on paper texture
-	//// 
-	//// GL_NEAREST - use closest pixel - pixelized edge
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//// GL_LINEAR - use color between pixel - smoother edge
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 	// Mipmaps	- paper coloring depends on distance
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -74,7 +67,7 @@ int main(void) {
 	int width;
 	int height;
 	int channels;
-		stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* textureData{ stbi_load("assets/ropeFlat.png", &width, &height,&channels, 0) };
 
 	if (textureData) {
@@ -96,13 +89,6 @@ int main(void) {
 	// S, T, R = X, Y, Z
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	//// Texture Filtering - how coloring works on paper texture
-	//// 
-	//// GL_NEAREST - use closest pixel - pixelized edge
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//// GL_LINEAR - use color between pixel - smoother edge
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// Mipmaps	- paper coloring depends on distance
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -136,7 +122,6 @@ int main(void) {
 		// Toggle Wireframe
 		enableWireframe(window);
 
-
 		// Clear screen using colors
 		glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -147,27 +132,29 @@ int main(void) {
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		customShader.useProgram();
-		glBindVertexArray(vertexArrayObject);
+		//glBindVertexArray(vertexArrayObject);
+		//vao->bind();
+		glBindVertexArray(vao->getBufferObject());
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
 	
-
-
-
 		// Swap buffers for smooth render
 		glfwSwapBuffers(window);
 
 		// Handle events
 		glfwPollEvents();
-
 	}
 
+	
 	glDeleteProgram(customShader.ID);
-	//glDeleteBuffers(1, &vertexBufferObject);
-	glDeleteVertexArrays(1, &vertexArrayObject);
-	//glDeleteBuffers(1, &elementBufferObject);
-
-
+	ebo->clearBuffer(BufferType::EBO, 1);
+	ebo->clearBuffer(BufferType::VBO, 1);
+	ebo->clearBuffer(BufferType::VAO, 1);
+	delete vbo;
+	delete ebo;
+	delete vao;
 	glfwTerminate();
+
+
 	return 0;
 }

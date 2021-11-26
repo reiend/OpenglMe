@@ -1,5 +1,5 @@
 
-#include "./glfwInit.h";
+#include "./glfwInit.h"
 
 #include "../includes/includes.h"
 

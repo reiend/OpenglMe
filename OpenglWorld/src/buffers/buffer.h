@@ -7,22 +7,27 @@
 
 
 enum class BufferType {
-	vbo,
-	ebo,
+	VBO,
+	EBO,
+	VAO,
 };
 
 class Buffer {
 private:
-	unsigned int bufferObject = 1;
+	unsigned int bufferObject;
 
 public:
-	Buffer(BufferType type, unsigned int target, int count = 1);
+	Buffer(BufferType type, unsigned int target = 0, int count = 1);
 	unsigned int getBufferObject();
-
+	void clearBuffer(BufferType type, int count);
 private:
 	void bufferConfigType(BufferType type, unsigned int target) const;
 	void createBufferVBO(unsigned int target) const;
 	void createBufferEBO(unsigned int target) const;
+	void createBufferVAO() const;
+
 };
+
+
 
 #endif
