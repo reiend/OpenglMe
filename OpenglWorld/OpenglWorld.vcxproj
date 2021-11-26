@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="res\imageLoader\stb_image.cpp" />
     <ClCompile Include="res\shaders\shaders.cpp" />
+    <ClCompile Include="src\buffers\buffer.cpp" />
     <ClCompile Include="src\events\utilsEvents.cpp" />
     <ClCompile Include="src\includes\includes.h" />
     <ClCompile Include="src\inits\gladInit.cpp" />
@@ -165,6 +166,8 @@
   <ItemGroup>
     <ClInclude Include="res\imageLoader\stb_image.h" />
     <ClInclude Include="res\shaders\shaders.h" />
+    <ClInclude Include="src\buffers\buffer.h" />
+    <ClInclude Include="src\buffers\vertices.h" />
     <ClInclude Include="src\events\utilsEvents.h" />
     <ClInclude Include="src\inits\gladInit.h" />
     <ClInclude Include="src\inits\glfwInit.h" />
