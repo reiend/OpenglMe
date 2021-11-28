@@ -1,8 +1,8 @@
 
 
-
-
-#include "./buffers/buffer.h"
+#include "./buffers//bufferEntity.h"
+#include "./buffers/vbo.h"
+#include "./buffers/bufferOld.h"
 #include "./events/utilsEvents.h"
 #include "../res/shaders/shaders.h"
 #include "./viewport/viewport.h"
@@ -14,6 +14,8 @@
 
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
+
+
 
 int main(void) {
 	using namespace WindowInfo;
@@ -29,7 +31,10 @@ int main(void) {
 
 	// Buffers
 	Buffer* vao = new Buffer(BufferType::VAO);
-	Buffer* vbo = new Buffer(BufferType::VBO, GL_ARRAY_BUFFER, 1);
+
+	// vertex position - 1
+	BufferEntity* vbo = new VBO(GL_ARRAY_BUFFER);
+
 	Buffer* ebo = new Buffer(BufferType::EBO, GL_ELEMENT_ARRAY_BUFFER, 1);
 
 	
