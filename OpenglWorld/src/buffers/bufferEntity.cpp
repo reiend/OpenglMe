@@ -4,11 +4,13 @@
 
 #include "./bufferEntity.h"
 #include "./vertices.h"
+#include "../includes/includes.h"
 
 unsigned int* buffer;
 
-BufferEntity::BufferEntity(int count) {
+BufferEntity::BufferEntity(GLenum target, GLenum usage, int count) {
 	bufferInit(count);
+	this->createBuffer(target, usage);
 }
 
 BufferEntity::~BufferEntity() {
@@ -20,8 +22,8 @@ void BufferEntity::bufferInit(int count) {
 	glGenBuffers(count, buffer);
 }
 
-void BufferEntity::bufferConfigType(GLenum target, GLenum usage) {
-	glBindBuffer(target, *(this->getBuffer()));
+void BufferEntity::createBuffer(GLenum target, GLenum usage) {
+	glBindBuffer(target, (*buffer));
 	glBufferData(target, Vertices::vertexSize, Vertices::vertexPos, usage);
 }
 

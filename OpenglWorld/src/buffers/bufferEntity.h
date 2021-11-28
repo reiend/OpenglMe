@@ -5,18 +5,16 @@
 #include "./bufferInfo.h"
 #include "../includes/includes.h"
 
-
-
 class BufferEntity {
 
 private:
 	unsigned int* buffer;
 
 public:
-	BufferEntity(int count);
+	BufferEntity(GLenum target, GLenum usage = GL_STATIC_DRAW, int count = 1);
 	~BufferEntity();
 	virtual void bufferInit(int count);
-	virtual void bufferConfigType(GLenum target, GLenum usage = GL_STATIC_DRAW);
+	virtual void createBuffer(GLenum target, GLenum usage = GL_STATIC_DRAW);
 	unsigned int* getBuffer();
 	void clearBuffer();
 

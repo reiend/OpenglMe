@@ -13,6 +13,7 @@
 // Vertex Buffer Object
 class VBO : public BufferEntity {
 
+public:
 	VBO(int count);
 
 };
