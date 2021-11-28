@@ -3,14 +3,7 @@
 #define BUFFER_H
 
 #include "../includes/includes.h"
-
-
-
-enum class BufferType {
-	VBO,
-	EBO,
-	VAO,
-};
+#include "./bufferInfo.h"
 
 class Buffer {
 private:
