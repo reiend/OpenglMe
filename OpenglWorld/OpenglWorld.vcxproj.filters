@@ -101,5 +101,11 @@
     <Image Include="res\assets\SmilingPeace.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\..\..\Users\Jake\Desktop\SmilingPeaceInTex.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\assets\SmilingPeaceInTex.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

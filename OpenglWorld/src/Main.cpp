@@ -34,14 +34,13 @@ int main(void) {
 	vbo->setBufferLayout(0, 3, 8 * sizeof(float));
 	vbo->setBufferLayout(1, 3, 8 * sizeof(float), (void*)(3*sizeof(float)));
 	vbo->setBufferLayout(2, 2, 8 * sizeof(float), (void*)(6*sizeof(float)));
-	
-
-
+	Buffer* tbo = new Buffer(BufferType::TBO);
+	tbo->createBufferTBO(GL_TEXTURE, GL_TEXTURE_2D, tbo->getBufferObject());
 	// textureBuffer
-	unsigned int texture1;
-	glGenTextures(1, &texture1);
-	glActiveTexture(GL_TEXTURE);
-	glBindTexture(GL_TEXTURE_2D, texture1);
+	//unsigned int texture1;
+	//glGenTextures(1, &texture1);
+	//glActiveTexture(GL_TEXTURE);
+	//glBindTexture(GL_TEXTURE_2D, texture1);
 
 	// Texture Wrapping - how to color things using a paper texture
 	// S, T, R = X, Y, Z
@@ -119,7 +118,7 @@ int main(void) {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+		glBindTexture(GL_TEXTURE_2D, tbo->getBufferObject());
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 

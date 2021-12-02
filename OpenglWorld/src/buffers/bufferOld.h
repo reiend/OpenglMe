@@ -14,6 +14,7 @@ public:
 	unsigned int getBufferObject();
 	void clearBuffer(BufferType type, int count);
 	void setBufferLayout(GLuint index, GLint size, GLsizei stride, const void* pointer=((void*)0), GLenum type = GL_FLOAT, GLboolean normalized = GL_FALSE);
+	void createBufferTBO(unsigned activeTexture, GLenum target, GLuint texture);
 
 private:
 	void bufferConfigType(BufferType type, unsigned int target) const;

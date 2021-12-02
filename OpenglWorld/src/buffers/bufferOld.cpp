@@ -14,6 +14,9 @@ Buffer::Buffer(BufferType type, unsigned int target, int count) {
 	case BufferType::VAO:
 		glGenVertexArrays(count, &bufferObject);
 		break;
+	case BufferType::TBO:
+		glGenTextures(count, &bufferObject);
+		break;
 	default:
 		glGenBuffers(count, &bufferObject);
 	}
@@ -29,6 +32,7 @@ void Buffer::clearBuffer(BufferType type, int count) {
 	case BufferType::VAO:
 		glDeleteVertexArrays(count, &bufferObject);
 		return;
+
 	default:
 		glDeleteBuffers(count, &bufferObject);
 		return;
@@ -62,6 +66,11 @@ void Buffer::createBufferVBO(unsigned int target) const {
 void Buffer::createBufferEBO(unsigned int target) const {
 	glBindBuffer(target, bufferObject);
 	glBufferData(target, Vertices::indexSize, Vertices::indexPos, GL_STATIC_DRAW);
+}
+
+void Buffer::createBufferTBO(unsigned int activeTexture, GLenum target, GLuint texture) {
+	glActiveTexture(activeTexture);
+	glBindTexture(target, texture);
 }
 
 void Buffer::createBufferVAO() const {
