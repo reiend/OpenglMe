@@ -13,6 +13,8 @@ public:
 	Buffer(BufferType type, unsigned int target = 0, int count = 1);
 	unsigned int getBufferObject();
 	void clearBuffer(BufferType type, int count);
+	void setBufferLayout(GLuint index, GLint size, GLsizei stride, GLenum type = GL_FLOAT, GLboolean normalized = GL_FALSE, const void* pointer = (void*)0);
+
 private:
 	void bufferConfigType(BufferType type, unsigned int target) const;
 	void createBufferVBO(unsigned int target) const;

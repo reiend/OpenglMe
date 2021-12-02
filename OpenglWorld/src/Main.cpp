@@ -1,7 +1,4 @@
 
-
-#include "./buffers//bufferEntity.h"
-#include "./buffers/vbo.h"
 #include "./buffers/bufferOld.h"
 #include "./events/utilsEvents.h"
 #include "../res/shaders/shaders.h"
@@ -31,21 +28,13 @@ int main(void) {
 
 	// Buffers
 	Buffer* vao = new Buffer(BufferType::VAO);
-
-	// vertex position - 1
-	BufferEntity* vbo = new VBO(GL_ARRAY_BUFFER);
-
+	Buffer* vbo = new Buffer(BufferType::VBO, GL_ARRAY_BUFFER, 1);
 	Buffer* ebo = new Buffer(BufferType::EBO, GL_ELEMENT_ARRAY_BUFFER, 1);
 
+	vbo->setBufferLayout(0, 3, 8 * sizeof(float));
+	vbo->setBufferLayout(1, 3, 8 * sizeof(float));
+	vbo->setBufferLayout(2, 2, 8 * sizeof(float));
 	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
 
 
 	// textureBuffer
@@ -98,7 +87,7 @@ int main(void) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
-	textureData = stbi_load("assets/SmilingPeace.png", &width, &height, &channels, 0) ;
+	textureData = stbi_load("assets/SmilingPeace.png", &width, &height, &channels, 0);
 
 	if (textureData) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
@@ -137,8 +126,11 @@ int main(void) {
 		customShader.useProgram();
 		glBindVertexArray(vao->getBufferObject());
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-	
+
+
 		// Swap buffers for smooth render
 		glfwSwapBuffers(window);
 
@@ -147,16 +139,20 @@ int main(void) {
 	}
 
 
+
+
 	// Freeing memory of Buffers
 	glDeleteProgram(customShader.ID);
 	ebo->clearBuffer(BufferType::EBO, 1);
-	ebo->clearBuffer(BufferType::VBO, 1);
-	ebo->clearBuffer(BufferType::VAO, 1);
+	vbo->clearBuffer(BufferType::VBO, 1);
+	vao->clearBuffer(BufferType::VAO, 1);
+
 
 	// Deallocating, returning memory from the heap
 	delete vbo;
 	delete ebo;
 	delete vao;
+
 
 	// No set nullptr == end
 	glfwTerminate();
