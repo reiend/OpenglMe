@@ -32,8 +32,8 @@ int main(void) {
 	Buffer* ebo = new Buffer(BufferType::EBO, GL_ELEMENT_ARRAY_BUFFER, 1);
 
 	vbo->setBufferLayout(0, 3, 8 * sizeof(float));
-	vbo->setBufferLayout(1, 3, 8 * sizeof(float));
-	vbo->setBufferLayout(2, 2, 8 * sizeof(float));
+	vbo->setBufferLayout(1, 3, 8 * sizeof(float), (void*)(3*sizeof(float)));
+	vbo->setBufferLayout(2, 2, 8 * sizeof(float), (void*)(6*sizeof(float)));
 	
 
 

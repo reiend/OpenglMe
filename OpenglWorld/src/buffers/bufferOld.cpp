@@ -68,7 +68,7 @@ void Buffer::createBufferVAO() const {
 	glBindVertexArray(bufferObject);
 }
 
-void Buffer::setBufferLayout(GLuint index, GLint size, GLsizei stride, GLenum type, GLboolean normalized, const void* pointer) {
+void Buffer::setBufferLayout(GLuint index, GLint size, GLsizei stride, const void* pointer, GLenum type, GLboolean normalized) {
 	glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 	glEnableVertexAttribArray(index);
 }
