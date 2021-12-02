@@ -4,9 +4,7 @@
 #include "./vertices.h"
 #include "../includes/includes.h"
 
-
 #include <iostream>
-
 
 unsigned int bufferObject;
 
@@ -68,6 +66,11 @@ void Buffer::createBufferEBO(unsigned int target) const {
 
 void Buffer::createBufferVAO() const {
 	glBindVertexArray(bufferObject);
+}
+
+void Buffer::setBufferLayout(GLuint index, GLint size, GLsizei stride, GLenum type, GLboolean normalized, const void* pointer) {
+	glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+	glEnableVertexAttribArray(index);
 }
 
 

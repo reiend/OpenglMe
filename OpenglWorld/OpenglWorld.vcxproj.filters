@@ -48,12 +48,6 @@
     <ClCompile Include="src\buffers\bufferOld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\buffers\bufferEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\buffers\vbo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inits\gladInit.h">
@@ -86,13 +80,7 @@
     <ClInclude Include="src\buffers\vertices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\buffers\bufferEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\buffers\bufferInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\buffers\vbo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
