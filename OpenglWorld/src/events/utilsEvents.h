@@ -6,7 +6,9 @@
 
 #include "../includes/includes.h"
 
+
 void closeWindow(GLFWwindow* window);
 void enableWireframe(GLFWwindow* window);
+void opacityControl(GLFWwindow* window);
 
 #endif 

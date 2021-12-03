@@ -12,7 +12,7 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
-
+extern float opacityValue;
 
 int main(void) {
 	using namespace WindowInfo;
@@ -21,6 +21,8 @@ int main(void) {
 	initGlfw();
 	GLFWwindow* window{ createWindow(WIDTH, HEIGHT, WINDOW_NAME) };
 	initGlad();
+
+
 
 	// Handle Viewport 
 	setViewport(WIDTH, HEIGHT);
@@ -34,13 +36,9 @@ int main(void) {
 	vbo->setBufferLayout(0, 3, 8 * sizeof(float));
 	vbo->setBufferLayout(1, 3, 8 * sizeof(float), (void*)(3*sizeof(float)));
 	vbo->setBufferLayout(2, 2, 8 * sizeof(float), (void*)(6*sizeof(float)));
-	Buffer* tbo = new Buffer(BufferType::TBO);
-	tbo->createBufferTBO(GL_TEXTURE, GL_TEXTURE_2D, tbo->getBufferObject());
-	// textureBuffer
-	//unsigned int texture1;
-	//glGenTextures(1, &texture1);
-	//glActiveTexture(GL_TEXTURE);
-	//glBindTexture(GL_TEXTURE_2D, texture1);
+
+	Buffer* tbo1 = new Buffer(BufferType::TBO);
+	tbo1->createBufferTBO(GL_TEXTURE, GL_TEXTURE_2D, tbo1->getBufferObject());
 
 	// Texture Wrapping - how to color things using a paper texture
 	// S, T, R = X, Y, Z
@@ -50,8 +48,6 @@ int main(void) {
 	// Mipmaps	- paper coloring depends on distance
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
 
 	Shader customShader("shaders/shaderSource/vertexShader.glsl", "shaders/shaderSource/fragmentShader.glsl");
 	// Image loader
@@ -72,9 +68,8 @@ int main(void) {
 
 	stbi_image_free(textureData);
 
-	unsigned int texture2;
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
+	Buffer* tbo2 = new Buffer(BufferType::TBO);
+	tbo2->createBufferTBO(GL_TEXTURE, GL_TEXTURE_2D, tbo2->getBufferObject());
 
 	// Texture Wrapping - how to color things using a paper texture
 	// S, T, R = X, Y, Z
@@ -84,7 +79,6 @@ int main(void) {
 	// Mipmaps	- paper coloring depends on distance
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 
 	textureData = stbi_load("assets/SmilingPeace.png", &width, &height, &channels, 0);
 
@@ -106,29 +100,29 @@ int main(void) {
 
 	while (!glfwWindowShouldClose(window)) {
 
-
 		// Exit Screen
 		closeWindow(window);
 
 		// Toggle Wireframe
 		enableWireframe(window);
 
+		// Texture opacity control
+		opacityControl(window);
 		// Clear screen using colors
 		glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, tbo->getBufferObject());
+		glBindTexture(GL_TEXTURE_2D, tbo1->getBufferObject());
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
+		glBindTexture(GL_TEXTURE_2D, tbo2->getBufferObject());
+
+		customShader.setFloat("opacity", opacityValue);
 
 		customShader.useProgram();
 		glBindVertexArray(vao->getBufferObject());
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
-
 
 		// Swap buffers for smooth render
 		glfwSwapBuffers(window);
